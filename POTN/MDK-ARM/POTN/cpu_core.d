@@ -1,0 +1,11 @@
+potn\cpu_core.o: ..\UCOSIII\uC-CPU\cpu_core.c
+potn\cpu_core.o: ..\UCOSIII\uC-CPU\cpu_core.h
+potn\cpu_core.o: ..\UCOSIII\uC-CPU\ARM-Cortex-M3\RealView\cpu.h
+potn\cpu_core.o: ..\UCOSIII\uC-CPU\cpu_def.h
+potn\cpu_core.o: ..\UCOSIII\uCOS_CONFIG\cpu_cfg.h
+potn\cpu_core.o: ..\UCOSIII\uC-LIB\lib_def.h
+potn\cpu_core.o: ..\UCOSIII\uC-LIB\lib_mem.h
+potn\cpu_core.o: ..\UCOSIII\uC-CPU\cpu_core.h
+potn\cpu_core.o: ..\UCOSIII\uCOS_CONFIG\lib_cfg.h
+potn\cpu_core.o: ..\UCOSIII\uC-LIB\lib_str.h
+potn\cpu_core.o: ..\UCOSIII\uC-LIB\lib_ascii.h

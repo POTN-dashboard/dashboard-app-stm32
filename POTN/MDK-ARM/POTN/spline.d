@@ -1,0 +1,16 @@
+potn\spline.o: ..\ZLG_GUI\spline.c
+potn\spline.o: ..\ZLG_GUI\config.h
+potn\spline.o: ..\ZLG_GUI\LCMDRV.H
+potn\spline.o: ..\ZLG_GUI\FONT_MACRO.H
+potn\spline.o: ..\ZLG_GUI\GUI_CONFIG.H
+potn\spline.o: ..\ZLG_GUI\GUI_BASIC.H
+potn\spline.o: ..\ZLG_GUI\GUI_STOCKC.H
+potn\spline.o: ..\ZLG_GUI\FONT5_7.H
+potn\spline.o: ..\ZLG_GUI\FONT8_8.H
+potn\spline.o: ..\ZLG_GUI\FONT24_32.H
+potn\spline.o: ..\ZLG_GUI\LOADBIT.H
+potn\spline.o: ..\ZLG_GUI\WINDOWS.H
+potn\spline.o: ..\ZLG_GUI\MENU.H
+potn\spline.o: ..\ZLG_GUI\spline.H
+potn\spline.o: ..\ZLG_GUI\ConvertColor.H
+potn\spline.o: E:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

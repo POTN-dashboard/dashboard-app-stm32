@@ -1,0 +1,15 @@
+potn\font5_7.o: ..\ZLG_GUI\font5_7.c
+potn\font5_7.o: ..\ZLG_GUI\config.h
+potn\font5_7.o: ..\ZLG_GUI\LCMDRV.H
+potn\font5_7.o: ..\ZLG_GUI\FONT_MACRO.H
+potn\font5_7.o: ..\ZLG_GUI\GUI_CONFIG.H
+potn\font5_7.o: ..\ZLG_GUI\GUI_BASIC.H
+potn\font5_7.o: ..\ZLG_GUI\GUI_STOCKC.H
+potn\font5_7.o: ..\ZLG_GUI\FONT5_7.H
+potn\font5_7.o: ..\ZLG_GUI\FONT8_8.H
+potn\font5_7.o: ..\ZLG_GUI\FONT24_32.H
+potn\font5_7.o: ..\ZLG_GUI\LOADBIT.H
+potn\font5_7.o: ..\ZLG_GUI\WINDOWS.H
+potn\font5_7.o: ..\ZLG_GUI\MENU.H
+potn\font5_7.o: ..\ZLG_GUI\spline.H
+potn\font5_7.o: ..\ZLG_GUI\ConvertColor.H
