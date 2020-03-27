@@ -69,5 +69,6 @@ potn\main.o: ..\OLED\oled.h
 potn\main.o: ..\OLED\display_menu.h
 potn\main.o: ..\OLED\display_fft.h
 potn\main.o: ..\OLED\transform.h
+potn\main.o: ../Inc/flash.h
 potn\main.o: ../Inc/stm32_dsp.h
 potn\main.o: ../Inc/table_fft.h

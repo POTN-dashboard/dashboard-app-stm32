@@ -46,6 +46,7 @@
 "potn\stm32f1xx_it.o"
 "potn\stm32f1xx_hal_msp.o"
 "potn\transform.o"
+"potn\flash.o"
 "potn\stm32f1xx_hal_gpio_ex.o"
 "potn\stm32f1xx_hal_pcd.o"
 "potn\stm32f1xx_hal_pcd_ex.o"

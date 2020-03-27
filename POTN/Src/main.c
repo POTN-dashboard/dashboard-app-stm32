@@ -34,6 +34,7 @@
 #include "display_menu.h"
 #include "display_fft.h"
 #include "transform.h"
+#include "flash.h"
 
 #include "stm32_dsp.h"  
 #include "table_fft.h"
@@ -313,6 +314,16 @@ void usb_task(void *p_arg)
 	
 	while(1)
 	{
+		if(USB_Recive_Buffer[0] == UPGRED_PACK){
+			Flash_WriteWord(ADDR_FLASH_PAGE_15,0xFFFFFFFF,255);
+			HAL_Delay(1000);
+			while(1){
+			__set_FAULTMASK(1); 
+			NVIC_SystemReset();				//系统软件复位		
+			}
+
+		}
+		
 		switch (status){
 			
 			case 0:						
@@ -648,11 +659,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 			break;
 		
 		case 2:
-			display_fft_2();	
+			display_fft_3();	
+
 			break;
 		
 		case 3:
-			display_fft_3();	
+			display_fft_2();				
 			break;
 		case 4:
 			display_fft_4();	

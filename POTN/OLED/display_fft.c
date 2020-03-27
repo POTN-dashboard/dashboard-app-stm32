@@ -66,7 +66,7 @@ void display_fft_2(void)
 	}
 	OLED_Refresh();
 }
-/*柱状显示 中间对称*/
+/*单柱显示 中间对称*/
 void display_fft_3(void)
 {
 	uint16_t i = 0;
@@ -94,7 +94,7 @@ void display_fft_3(void)
 	}
 	OLED_Refresh();
 }
-/*单柱状显示 中间对称*/
+/*柱状状显示 中间对称*/
 void display_fft_4(void)
 {
 	uint16_t i = 0;
