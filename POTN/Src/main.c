@@ -118,7 +118,63 @@ void keyboard_task(void *p_arg);   //任务函数
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+#define RegBase  (0x40005C00L)  /* USB_IP Peripheral Registers base address */
+/* Control register */
+#define CNTR    ((__IO unsigned *)(RegBase + 0x40))
+#define _SetCNTR(wRegValue)  (*CNTR   = (uint16_t)wRegValue)
+/* GetCNTR */
+#define _GetCNTR()   ((uint16_t) *CNTR)
 
+#define GPIOA_ODR_Addr    (GPIOA_BASE+12) //0x4001080C 
+
+#define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
+#define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
+#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum)) 
+#define PAout(n)   BIT_ADDR(GPIOA_ODR_Addr,n)  //输出 
+
+void usb_port_set(u8 enable) 
+{ 
+		__HAL_RCC_GPIOA_CLK_ENABLE();           	//开启GPIOA时钟	 
+		if(enable){ 
+			GPIOA->CRH&=0XFFF00FFF; 
+			GPIOA->CRH|=0X00044000; 
+			_SetCNTR(_GetCNTR()&(~(1<<1)));
+		}
+		else { 
+			_SetCNTR(_GetCNTR()|(1<<1)); 
+			GPIOA->CRH&=0XFFF00FFF; 
+			GPIOA->CRH|=0X00033000; 
+			PAout(12)=0; 
+		} 
+}
+typedef  void (*pFunction)(void);
+#define BootloaderAddress    (0x8000000)
+pFunction Jump_To_Bootloader;
+uint32_t JumpAddress;
+void BootloaderStart(void)
+{
+//		__set_PRIMASK(1);																	
+	  if (((*(__IO uint32_t*)BootloaderAddress) & 0x2FFE0000 ) == 0x20000000)
+    { 
+      /* Jump to user application */
+
+      JumpAddress = *(__IO uint32_t*) (BootloaderAddress + 4);
+
+      Jump_To_Bootloader = (pFunction) JumpAddress;
+
+      /* Initialize user application's Stack Pointer */
+			__set_CONTROL(0);
+      __set_MSP(*(__IO uint32_t*) BootloaderAddress);
+
+		for(int i = 0; i < 8; i++)
+		{			
+			NVIC->ICER[i] = 0xFFFFFFFF;	/* 关闭中断*/
+			NVIC->ICPR[i] = 0xFFFFFFFF;	/* 清楚中断标志位 */
+		}
+      Jump_To_Bootloader();
+    }
+
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -135,6 +191,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	OS_ERR err;
 	CPU_SR_ALLOC();
+	uint8_t flash_flag = 0; //判断当前 是否进入app模式的标志位 从flash第15页最后一个字中读取出来
   /* USER CODE END 1 */
   
 
@@ -151,13 +208,25 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+	usb_port_set(1);   								//USB控制寄存器 关闭USB			
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();	
+	
+	Flash_ReadData(ADDR_FLASH_PAGE_16-1,&flash_flag,1);
+	if(flash_flag == 0xFF){
+		while(1){
+		usb_port_set(0);		//USB控制寄存器 关闭USB			
+//		BootloaderStart();
+		__set_FAULTMASK(1); 
+		NVIC_SystemReset();				//系统软件复位			
+		};
+	}
+	
+	
   MX_ADC1_Init();
   MX_TIM3_Init();
 	
@@ -315,28 +384,29 @@ void usb_task(void *p_arg)
 	while(1)
 	{
 		if(USB_Recive_Buffer[0] == UPGRED_PACK){
+			
 			Flash_WriteWord(ADDR_FLASH_PAGE_15,0xFFFFFFFF,255);
-			HAL_Delay(1000);
-			while(1){
+			HAL_Delay(100);
+//			usb_port_set(0);   								//USB控制寄存器 关闭USB			
 			__set_FAULTMASK(1); 
 			NVIC_SystemReset();				//系统软件复位		
-			}
-
+			while(1);
 		}
 		
 		switch (status){
 			
 			case 0:						
-				for(int i = 0; i < 15; i++){
-					if(USB_Recive_Buffer[0] == CPU_GPU_PACK){						// 是否接受到了CPU+GPU型号包 PC->STM32
-						status = 1;
-						transform_CPUGPU();						
-						break;	
-					}
-					USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, HID_Buffer,64);			//发送 就绪包 STM32->PC
-					OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err); //延时1s
+				
+				if(USB_Recive_Buffer[0] == CPU_GPU_PACK){						// 是否接受到了CPU+GPU型号包 PC->STM32
+					flag = 0;
+					status = 1;
+					transform_CPUGPU();						
+					break;	
 				}
-				if(status == 0)			//如果未能接收到
+				USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, HID_Buffer,64);			//发送 就绪包 STM32->PC
+				OSTimeDlyHMSM(0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err); //延时1s
+				flag++;				
+				if(flag == 16)			//如果16s内未能接收到 
 					status = 3;
 			break;
 				
