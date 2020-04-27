@@ -19,7 +19,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "gpio.h"
+#include "oled.h"
 /* USER CODE BEGIN 0 */
+
 
 /* USER CODE END 0 */
 
@@ -46,8 +48,10 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	
+	if(OLED_IO == 0){
+	  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PC13 */
@@ -62,10 +66,53 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+		
+	}
+	else if(OLED_IO == 1){
+		  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_11, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PB11 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PA0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	
+	}
+
 
 }
 
 /* USER CODE BEGIN 2 */
+void LED_HIGH(void){
+	
+	if(OLED_IO == 0)
+		HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);		
+	else if(OLED_IO == 1)
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_SET);	
+}
+
+void LED_LOW(void){
+	
+	if(OLED_IO == 0)
+		HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET);		
+	else if(OLED_IO == 1)
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,GPIO_PIN_RESET);	
+}
+void LED_Toggle(void){
+	if(OLED_IO == 0)
+		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);		
+	else if(OLED_IO == 1)
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
+
+}
 
 /* USER CODE END 2 */
 

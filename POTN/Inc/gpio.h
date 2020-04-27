@@ -36,7 +36,9 @@
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);
-
+void LED_HIGH(void);
+void LED_LOW(void);
+void LED_Toggle(void);
 /* USER CODE BEGIN Prototypes */
 
 /* USER CODE END Prototypes */

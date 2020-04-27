@@ -1,8 +1,6 @@
 #include "flash.h"
 
 
-
-
 static FLASH_EraseInitTypeDef EraseInitStruct;
 uint32_t Address = 0, PAGEError = 0;
 
@@ -85,9 +83,9 @@ void Flash_WriteData(uint32_t WriteAddr,uint32_t *Data){
     while (1)
     {
       /* Make LED2 blink (100ms on, 2s off) to indicate error in Erase operation */
-			HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET);	
+			LED_LOW();	
       HAL_Delay(100);	
-			HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);	
+			LED_HIGH();
       HAL_Delay(2000);
     }
   }
@@ -111,9 +109,9 @@ void Flash_WriteData(uint32_t WriteAddr,uint32_t *Data){
       while (1)
       {
         /* Make LED2 blink (100ms on, 2s off) to indicate error in Write operation */
-				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET);	
+				LED_LOW();
         HAL_Delay(100);
-				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);	
+				LED_HIGH();
         HAL_Delay(2000);
       }
     }

@@ -634,32 +634,6 @@ void key_task(void *p_arg)
 		}
 		OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_HMSM_STRICT,&err); //延时10ms			
 		
-		
-	
-//			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 0){
-//			OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_HMSM_STRICT,&err); //延时10ms
-//		
-//			if(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) == 0){
-
-////					OS_CRITICAL_ENTER();		
-////					USBD_KEYBOADR_HID_SendReport(&hUsbDeviceFS, KEYBOARD_Buffer,9);
-////					OS_CRITICAL_EXIT();
-////					
-////					KEYBOARD_Buffer[2] = 0;	
-////					OSTimeDlyHMSM(0,0,0,300,OS_OPT_TIME_HMSM_STRICT,&err); //延时300ms
-
-////					OS_CRITICAL_ENTER();			
-////					USBD_KEYBOADR_HID_SendReport(&hUsbDeviceFS, KEYBOARD_Buffer,9);							
-////					OS_CRITICAL_EXIT();
-////					
-////					KEYBOARD_Buffer[2] = 4;
-//					HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);				
-//					while(HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0) != 1){
-//					OSTimeDlyHMSM(0,0,0,10,OS_OPT_TIME_HMSM_STRICT,&err); //延时10ms
-//					}
-//				
-//				}
-//			}
 	};
 }
 

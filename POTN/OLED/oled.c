@@ -533,16 +533,35 @@ void OLED_Init(void)
 //	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//??50MHz
 // 	GPIO_Init(GPIOB, &GPIO_InitStructure);	  //???GPIOD1,12,13,15
 // 	GPIO_SetBits(GPIOB,GPIO_Pin_1|GPIO_Pin_12|GPIO_Pin_13|GPIO_Pin_15);	
-//	
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-		__HAL_RCC_GPIOB_CLK_ENABLE();
-			/*Configure GPIO pin : PB 1 12 13 15 */
-		GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15;
-		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-		HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-	
+//
+	if (OLED_IO == 0){
+		GPIO_InitTypeDef GPIO_InitStruct = {0};
+			__HAL_RCC_GPIOB_CLK_ENABLE();
+				/*Configure GPIO pin : PB 1 12 13 15 */
+			GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15;
+			GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+			HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	}
+  else if(OLED_IO == 1){
+		GPIO_InitTypeDef GPIO_InitStruct = {0};
+			__HAL_RCC_GPIOB_CLK_ENABLE();
+				/*Configure GPIO pin : PB 7 8 9     PC13 */
+			GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+			GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+			HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+			
+			__HAL_RCC_GPIOC_CLK_ENABLE();
+				/*Configure GPIO pin : PB 7 8 9     PC13 */
+			GPIO_InitStruct.Pin = GPIO_PIN_13;
+			GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+			HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	}	
 	OLED_RST_Set();
 	OSTimeDlyHMSM(0,0,0,100,OS_OPT_TIME_HMSM_STRICT,&err); //—” ±100ms
 	OLED_RST_Clr();//∏¥Œª
