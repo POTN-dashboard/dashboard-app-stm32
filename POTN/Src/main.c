@@ -216,16 +216,16 @@ int main(void)
   MX_DMA_Init();
   MX_USB_DEVICE_Init();	
 	
-	Flash_ReadData(ADDR_FLASH_PAGE_16-1,&flash_flag,1);
-	if(flash_flag == 0xFF){
-		while(1){
-		usb_port_set(0);		//USB控制寄存器 关闭USB			
-//		BootloaderStart();
-		__set_FAULTMASK(1); 
-		NVIC_SystemReset();				//系统软件复位			
-		};
-	}
-	
+//	Flash_ReadData(ADDR_FLASH_PAGE_16-1,&flash_flag,1);
+//	if(flash_flag == 0xFF){
+//		while(1){
+//		usb_port_set(0);		//USB控制寄存器 关闭USB			
+////		BootloaderStart();
+//		__set_FAULTMASK(1); 
+//		NVIC_SystemReset();				//系统软件复位			
+//		};
+//	}
+//	
 	
   MX_ADC1_Init();
   MX_TIM3_Init();
@@ -387,9 +387,18 @@ void usb_task(void *p_arg)
 			
 			Flash_WriteWord(ADDR_FLASH_PAGE_15,0xFFFFFFFF,255);
 			HAL_Delay(100);
-//			usb_port_set(0);   								//USB控制寄存器 关闭USB			
-			__set_FAULTMASK(1); 
-			NVIC_SystemReset();				//系统软件复位		
+			usb_port_set(0);   								//USB控制寄存器 关闭USB			
+			
+//			OS_CRITICAL_ENTER();	//进入临界区
+//			OSTaskDel((OS_TCB*)&KeyboardTaskTCB,&err);
+//			OSTaskDel((OS_TCB*)&DisplayTaskTCB,&err);	
+//			OSTaskDel((OS_TCB*)&Key_TaskTCB,&err);	
+//			OSTaskDel((OS_TCB*)&DisplayTaskTCB,&err);
+//			OSTaskDel((OS_TCB*)&UsbTaskTCB,&err);				
+//			OS_CRITICAL_EXIT();	//退出临界区	
+//			__set_FAULTMASK(1); 
+//			NVIC_SystemReset();				//系统软件复位		
+			BootloaderStart();
 			while(1);
 		}
 		
