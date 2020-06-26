@@ -81,19 +81,13 @@ void display_menu1(void){
 					OLED_ShowNum(0,47,Internet_up/1024,1,16);
 					OLED_ShowChar(8,47,'.',16);
 					OLED_ShowNum(8*2,47,(Internet_up%1024)*10/1024,1,16);
-//				OLED_ShowString(8*3,47,"MB",16);
-//				OLED_ShowChar(8*5,47,'~'+1,16);
 			}
 			else if(Internet_up/1024 >= 10 && Internet_up/1024 <= 999){					// 网速大于10M
 				OLED_ShowNum_Nozero(0,47,Internet_up/1024,3,16);
-//			OLED_ShowString(8*3,47,"MB",16);
-//			OLED_ShowChar(8*5,47,'~'+1,16);
 			}
 
 			else if(Internet_up/1024 > 999){																					//网速 大于 999M
 				OLED_ShowNum_Nozero(0,47,999,3,16);
-//			OLED_ShowString(8*3,47,"MB",16);
-//			OLED_ShowChar(8*5,47,'~'+1,16);
 			}
 			OLED_ShowString(8*3,47,"MB",16);
 			OLED_ShowChar(8*5,47,'~'+1,16);			
@@ -112,21 +106,16 @@ void display_menu1(void){
 				OLED_ShowNum(127-8*6,47,Internet_down/1024,1,16);
 				OLED_ShowChar(127-8*5,47,'.',16);
 				OLED_ShowNum(127-8*4,47,(Internet_down%1024)*10/1024,1,16);
-//				OLED_ShowString(127-3*8,47,"MB",16);
-//				OLED_ShowChar(127-8,47,'~'+2,16);
 			}
 			else if(Internet_down/1024 >= 10 && Internet_down/1024 <= 999){					// 网速大于10M 小于 999M
 				OLED_ShowNum_Nozero(127-6*8,47,Internet_down/1024,3,16);
-//				OLED_ShowString(127-3*8,47,"MB",16);
-//				OLED_ShowChar(127-8,47,'~'+1,16);
+
 			}
 			else if(Internet_down/1024 > 999){																					//网速 大于 999M
 				OLED_ShowNum_Nozero(127-6*8,47,999,3,16);
-//				OLED_ShowString(127-3*8,47,"MB",16);
-//				OLED_ShowChar(127-8,47,'~'+1,16);
 			}
 			OLED_ShowString(127-3*8,47,"MB",16);
-			OLED_ShowChar(127-8,47,'~'+1,16);
+			OLED_ShowChar(127-8,47,'~'+2,16);
 		
 		}
 		OLED_Refresh();
